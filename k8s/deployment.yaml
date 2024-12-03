@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodejs-app
+  namespace: ng  # Specify the namespace
   labels:
     app: nodejs-app
 spec:
-  replicas: 2
+  replicas: 2  # Number of pod replicas
   selector:
     matchLabels:
       app: nodejs-app
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nodejs-app
-        image: nithin-nodejs-app
-        imagePullPolicy: Never
+        image: nithingganesh/nithin-nodejs-app:latest 
+        imagePullPolicy: Always  # Always pull the latest image
         ports:
-        - containerPort: 3000
+        - containerPort: 3000 

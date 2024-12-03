@@ -1,0 +1,7 @@
+docker build -t nithin-nodejs-app -f docker/dockerfile .
+docker tag nithin-nodejs-app:latest nithingganesh/nithin-nodejs-app:latest
+docker push nithingganesh/nithin-nodejs-app:latest
+
+kubectl apply -f k8s/deployment.yaml --namespace ng
+kubectl apply -f k8s/service.yaml --namespace ng
+kubectl rollout restart deployment nodejs-app --namespace ng
