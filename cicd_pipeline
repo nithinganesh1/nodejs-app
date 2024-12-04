@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git url: 'https://github.com/nithinganesh1/nodejs-app.git', branch: 'main'
+            }
+        }
+        stage('Build Msg') {
+            steps {
+                echo "Building..."
+            }
+        }
+        stage('Hello') {
+            steps {
+                sh 'ls'    
+                sh 'pwd'
+            }
+        }
+        
+        stage('Docker Build') {
+            steps {
+                script {
+                    sh "docker build -t nithin-nodejs-app -f docker/dockerfile ."
+                }
+            }
+        }
+
+        stage('Tag and Push') {
+            steps {
+                script {
+                    sh "docker tag nithin-nodejs-app:latest nithingganesh/nithin-nodejs-app:latest"
+                    sh "docker push nithingganesh/nithin-nodejs-app:latest"
+                }
+            }
+        }
+
+        stage('Deploy to k8s') {
+            steps {
+                script {
+                    sh "kubectl apply -f k8s/deployment.yaml --namespace ng"
+                    sh "kubectl apply -f k8s/service.yaml --namespace ng"
+                }
+            }
+        }
+
+        stage('Restart Pods') {
+            steps {
+                script {
+                    sh "kubectl rollout restart deployment nodejs-app --namespace ng"
+                }
+            }
+        }
+
+    }
+}
+
