@@ -192,11 +192,6 @@ nodejs-app
 
 ---
 
-## Additional Notes
-- If AWS EKS proves too resource-intensive, Minikube can be used for local Kubernetes testing.
-- Ensure Docker Hub credentials and AWS IAM roles are securely managed.
-
----
 
 ## Contributors
 - [nithingganesh](https://github.com/nithinganesh1)
